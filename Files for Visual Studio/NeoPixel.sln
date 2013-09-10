@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeoPixel", "NeoPixel\NeoPixel.csproj", "{0EBF6001-76CE-41E1-9695-F4091400F03D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeoPixelNative", "NeoPixelNative\NeoPixelNative.csproj", "{75131445-3F44-4DB2-B810-7C8AAEA15113}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EBF6001-76CE-41E1-9695-F4091400F03D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EBF6001-76CE-41E1-9695-F4091400F03D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EBF6001-76CE-41E1-9695-F4091400F03D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EBF6001-76CE-41E1-9695-F4091400F03D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75131445-3F44-4DB2-B810-7C8AAEA15113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75131445-3F44-4DB2-B810-7C8AAEA15113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75131445-3F44-4DB2-B810-7C8AAEA15113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75131445-3F44-4DB2-B810-7C8AAEA15113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F69B4C80-C625-4E8C-80E3-BD9D11AAD9C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F69B4C80-C625-4E8C-80E3-BD9D11AAD9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F69B4C80-C625-4E8C-80E3-BD9D11AAD9C7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F69B4C80-C625-4E8C-80E3-BD9D11AAD9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F69B4C80-C625-4E8C-80E3-BD9D11AAD9C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F69B4C80-C625-4E8C-80E3-BD9D11AAD9C7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{836A7328-7B21-40FD-BCF8-273D3280D380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{836A7328-7B21-40FD-BCF8-273D3280D380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{836A7328-7B21-40FD-BCF8-273D3280D380}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{836A7328-7B21-40FD-BCF8-273D3280D380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{836A7328-7B21-40FD-BCF8-273D3280D380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{836A7328-7B21-40FD-BCF8-273D3280D380}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

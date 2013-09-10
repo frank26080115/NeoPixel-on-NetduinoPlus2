@@ -1,0 +1,541 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NeoPixel</name>
+    </assembly>
+    <members>
+        <member name="T:NeoPixel.NeoPixelWriter">
+            <summary>
+            This class contains utilities to handle basic writing to a set of NeoPixels.
+            It also contains the interop call to the low level native C++ code.
+            
+            The user is responsible for organizing the set of NeoPixels while using this class,
+            because most of the methods in this class takes arrays as parameters.
+            
+            NeoPixelChain is another class that helps the user organize the set of NeoPixels,
+            see the comments for NeoPixelChain for more details
+            
+            Note: generic object arrays are not accepted as parameters, only arrays of NeoPixels and Colors are allowed
+            
+            Note: this class does not resemble System.IO style streams
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.pin">
+            <summary>
+            remembers which pin
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.op">
+            <summary>
+            references the pin, may have already been initialized
+            </summary>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.#ctor(Microsoft.SPOT.Hardware.Cpu.Pin)">
+            <summary>
+            Constructor that initializes a single pin that is connected to the first NeoPixel's data input
+            </summary>
+            <param name="pin">MCU pin that is connected to the first NeoPixel's data input</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.#ctor(Microsoft.SPOT.Hardware.OutputPort)">
+            <summary>
+            Similar to the other constructor assumes that the pin is pre-initialized
+            </summary>
+            <param name="pin">MCU pin that is connected to the first NeoPixel's data input, must be pre-initialized or initialized before "Write"</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.Write(NeoPixel.NeoPixel[],System.Int32)">
+            <summary>
+            Updates a set of NeoPixels
+            </summary>
+            <param name="pixels">a list of NeoPixels to update, index 0 is the first NeoPixel connected to the MCU</param>
+            <param name="count">the number of NeoPixels</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.Write(Microsoft.SPOT.Presentation.Media.Color[],System.Int32)">
+            <summary>
+            The "Color" enum is a used for generic graphic stuff inside Microsoft.SPOT
+            This method allows you to set NeoPixels using Microsoft.SPOT's "Color"
+            Note: the "Color" enum is a 32 bit integer but GRB is 24 bit, however there are no data types available for just 24 bits
+            </summary>
+            <param name="pixels">a list of colors to be written, index 0 is the first NeoPixel connected to the MCU</param>
+            <param name="count">the number of colors to be written</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.Write(Microsoft.SPOT.Presentation.Media.Color[])">
+            <summary>
+            The "Color" enum is a used for generic graphic stuff inside Microsoft.SPOT
+            This method allows you to set NeoPixels using Microsoft.SPOT's "Color"
+            Note: the "Color" enum is a 32 bit integer but GRB is 24 bit, however there are no data types available for just 24 bits
+            Note: the count is derived from the array properties
+            </summary>
+            <param name="pixels">a list of colors to be written, index 0 is the first NeoPixel connected to the MCU</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.Write(NeoPixel.NeoPixel[])">
+            <summary>
+            Updates a set of NeoPixels
+            
+            Note: the count is derived from the array properties
+            </summary>
+            <param name="pixels">a list of NeoPixels to update, index 0 is the first NeoPixel connected to the MCU</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.Write(Microsoft.SPOT.Bitmap,NeoPixel.NeoPixelWriter.GetIndexDelegate)">
+            <summary>
+            Draws an entire bitmap to a grid of NeoPixels
+            </summary>
+            <param name="bm">the bitmap to draw</param>
+            <param name="GetIndexFunc">a "function pointer" so the user can specify how the grid is arranged. for generic arrangements, try using "GridArrangement" instead</param>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.usedGridArrange">
+            <summary>
+            used by GetIndexFromXYAndGridArrangement only
+            </summary>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.GetIndexFromXYAndGridArrangement(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            calculates the appropriate chain index of a pixel
+            using x and y coordinates in combination of a generic grid arrangement
+            </summary>
+            <param name="x">x coordinate, 0 is left</param>
+            <param name="y">y coordinate, 0 is top</param>
+            <param name="w">width of the bitmap</param>
+            <param name="h">height of the bitmap</param>
+            <returns>index of NeoPixel in chain</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelWriter.Write(Microsoft.SPOT.Bitmap,NeoPixel.NeoPixelWriter.GridArrangment)">
+            <summary>
+            Draws an entire bitmap to a grid of NeoPixels
+            </summary>
+            <param name="bm">the bitmap to draw</param>
+            <param name="gridArrange">how the NeoPixel grid is arranged</param>
+        </member>
+        <member name="T:NeoPixel.NeoPixelWriter.GetIndexDelegate">
+            <summary>
+            "delegates" are used to describe "function pointers"
+            Functions designed for this delegate is used so the user can describe how a grid of NeoPixels are arranged
+            For generic arrangements, try using "GridArrangement" instead
+            </summary>
+            <param name="x">x coordinate, 0 is left</param>
+            <param name="y">y coordinate, 0 is top</param>
+            <param name="w">width of the bitmap</param>
+            <param name="h">height of the bitmap</param>
+            <returns>index of NeoPixel in chain</returns>
+        </member>
+        <member name="T:NeoPixel.NeoPixelWriter.GridArrangment">
+            <summary>
+            GridArrangment tells the bitmap writing routine how the user has arraged their NeoPixels in a grid
+            
+            Note: (x, y) of (0, 0) is always top left corner of the grid
+            
+            Comments of each enum value is a graphical representation if an example 5x5 grid using indices of pixels
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.LeftToRight_TopToBottom_Zigzag">
+            <summary>
+            (00)(01)(02)(03)(04)
+            (05)(06)(07)(08)(09)
+            (10)(11)(12)(13)(14)
+            (15)(16)(17)(18)(19)
+            (20)(21)(22)(23)(24)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.LeftToRight_BottomToTop_Zigzag">
+            <summary>
+            (20)(21)(22)(23)(24)
+            (15)(16)(17)(18)(19)
+            (10)(11)(12)(13)(14)
+            (05)(06)(07)(08)(09)
+            (00)(01)(02)(03)(04)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.RightToLeft_TopToBottom_Zigzag">
+            <summary>
+            (04)(03)(02)(01)(00)
+            (09)(08)(07)(06)(05)
+            (14)(13)(12)(11)(10)
+            (19)(18)(17)(16)(15)
+            (24)(23)(22)(21)(20)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.RightToLeft_BottomToTop_Zigzag">
+            <summary>
+            (24)(23)(22)(21)(20)
+            (19)(18)(17)(16)(15)
+            (14)(13)(12)(11)(10)
+            (09)(08)(07)(06)(05)
+            (04)(03)(02)(01)(00)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.TopToBottom_LeftToRight_Zigzag">
+            <summary>
+            (00)(05)(10)(15)(20)
+            (01)(06)(11)(16)(21)
+            (02)(07)(12)(17)(22)
+            (03)(08)(13)(18)(23)
+            (04)(09)(14)(19)(24)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.TopToBottom_RightToLeft_Zigzag">
+            <summary>
+            (20)(15)(10)(05)(00)
+            (21)(16)(11)(06)(01)
+            (22)(17)(12)(07)(02)
+            (23)(18)(13)(08)(03)
+            (24)(19)(14)(09)(04)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.BottomToTop_LeftToRight_Zigzag">
+            <summary>
+            (04)(09)(14)(19)(24)
+            (03)(08)(13)(18)(23)
+            (02)(07)(12)(17)(22)
+            (01)(06)(11)(16)(21)
+            (00)(05)(10)(15)(20)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.BottomToTop_RightToLeft_Zigzag">
+            <summary>
+            (20)(15)(10)(05)(00)
+            (21)(16)(11)(06)(01)
+            (22)(17)(12)(07)(02)
+            (23)(18)(13)(08)(03)
+            (24)(19)(14)(09)(04)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.LeftToRight_TopToBottom_Snake">
+            <summary>
+            (00)(01)(02)(03)(04)
+            (09)(08)(07)(06)(05)
+            (10)(11)(12)(13)(14)
+            (19)(18)(17)(16)(15)
+            (20)(21)(22)(23)(24)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.LeftToRight_BottomToTop_Snake">
+            <summary>
+            (20)(21)(22)(23)(24)
+            (19)(18)(17)(16)(15)
+            (10)(11)(12)(13)(14)
+            (09)(08)(07)(06)(05)
+            (00)(01)(02)(03)(04)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.RightToLeft_TopToBottom_Snake">
+            <summary>
+            (04)(03)(02)(01)(00)
+            (05)(06)(07)(08)(09)
+            (14)(13)(12)(11)(10)
+            (15)(16)(17)(18)(19)
+            (24)(23)(22)(21)(20)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.RightToLeft_BottomToTop_Snake">
+            <summary>
+            (24)(23)(22)(21)(20)
+            (15)(16)(17)(18)(19)
+            (14)(13)(12)(11)(10)
+            (05)(06)(07)(08)(09)
+            (04)(03)(02)(01)(00)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.TopToBottom_LeftToRight_Snake">
+            <summary>
+            (00)(09)(10)(19)(20)
+            (01)(08)(11)(18)(21)
+            (02)(07)(12)(17)(22)
+            (03)(06)(13)(16)(23)
+            (04)(05)(14)(15)(24)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.TopToBottom_RightToLeft_Snake">
+            <summary>
+            (20)(19)(10)(09)(00)
+            (21)(18)(11)(08)(01)
+            (22)(17)(12)(07)(02)
+            (23)(16)(13)(06)(03)
+            (24)(15)(14)(05)(04)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.BottomToTop_LeftToRight_Snake">
+            <summary>
+            (04)(05)(14)(15)(24)
+            (03)(06)(13)(16)(23)
+            (02)(07)(12)(17)(22)
+            (01)(08)(11)(18)(21)
+            (00)(09)(10)(19)(20)
+            </summary>
+        </member>
+        <member name="F:NeoPixel.NeoPixelWriter.GridArrangment.BottomToTop_RightToLeft_Snake">
+            <summary>
+            (24)(15)(14)(05)(04)
+            (23)(16)(13)(06)(03)
+            (22)(17)(12)(07)(02)
+            (21)(18)(11)(08)(01)
+            (20)(19)(10)(09)(00)
+            </summary>
+        </member>
+        <member name="T:NeoPixel.NeoPixel">
+            <summary>
+            This class simply contains the color info of one NeoPixel
+            with some helpful constructors and properties
+            </summary>
+        </member>
+        <member name="M:NeoPixel.NeoPixel.#ctor">
+            <summary>
+            default constructor, default color is "darkest" (off)
+            </summary>
+        </member>
+        <member name="M:NeoPixel.NeoPixel.#ctor(Microsoft.SPOT.Presentation.Media.Color)">
+            <summary>
+            constructor that sets a initial color
+            </summary>
+            <param name="c">initial color</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixel.#ctor(System.Byte)">
+            <summary>
+            constructor that sets an initial "gray" brightness
+            </summary>
+            <param name="brightness">initial "gray" brightness, 0 to 255</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixel.#ctor(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            constructor that sets an initial color, specified as RGB
+            </summary>
+            <param name="r">initial red level, 0 to 255</param>
+            <param name="g">initial green level, 0 to 255</param>
+            <param name="b">initial blue level, 0 to 255</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixel.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            constructor that sets an initial color, specified as RGB
+            </summary>
+            <param name="r">initial red level, 0 to 255</param>
+            <param name="g">initial green level, 0 to 255</param>
+            <param name="b">initial blue level, 0 to 255</param>
+        </member>
+        <member name="P:NeoPixel.NeoPixel.Green">
+            <summary>
+            Green intensity of this NeoPixel, 0 to 255
+            </summary>
+        </member>
+        <member name="P:NeoPixel.NeoPixel.Red">
+            <summary>
+            Red intensity of this NeoPixel, 0 to 255
+            </summary>
+        </member>
+        <member name="P:NeoPixel.NeoPixel.Blue">
+            <summary>
+            Blue intensity of this NeoPixel, 0 to 255
+            </summary>
+        </member>
+        <member name="P:NeoPixel.NeoPixel.Color">
+            <summary>
+            Color (Microsoft.SPOT.Presentation.Media) of this NeoPixel
+            </summary>
+        </member>
+        <member name="T:NeoPixel.NeoPixelChain">
+            <summary>
+            This class helps the user organize their set of NeoPixels,
+            because NeoPixelChain pretends to be a list, and have all of the
+            similar properties and methods associated with a simple list.
+            The user can work with their NeoPixels as though it was continous chain.
+            
+            Unlike NeoPixelWriter (which contains multiple complex Write methods), NeoPixelChain only has one simple Write method that Writes the entire chain
+            </summary>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.#ctor(Microsoft.SPOT.Hardware.Cpu.Pin)">
+            <summary>
+            Constructor that initializes a single pin that is connected to the first NeoPixel's data input
+            </summary>
+            <param name="pin">MCU pin that is connected to the first NeoPixel's data input</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.#ctor(Microsoft.SPOT.Hardware.OutputPort)">
+            <summary>
+            Similar to the other constructor assumes that the pin is pre-initialized
+            </summary>
+            <param name="pin">MCU pin that is connected to the first NeoPixel's data input, must be pre-initialized or initialized before "Write"</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Write">
+            <summary>
+            Updates every NeoPixel in this chain
+            </summary>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Add">
+            <summary>
+            Adds a default NeoPixel to the chain
+            </summary>
+            <returns>reference to the NeoPixel that was added</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Add(Microsoft.SPOT.Presentation.Media.Color)">
+            <summary>
+            Adds a NeoPixel to the chain with a specific color
+            </summary>
+            <param name="c">color of the NeoPixel to be added</param>
+            <returns>reference to the NeoPixel that was added</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Add(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Adds a NeoPixel to the chain with a specific color
+            </summary>
+            <param name="r">red value of the NeoPixel to be added, 0 to 255</param>
+            <param name="g">green value of the NeoPixel to be added, 0 to 255</param>
+            <param name="b">blue value of the NeoPixel to be added, 0 to 255</param>
+            <returns>reference to the NeoPixel that was added</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Add(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Adds a NeoPixel to the chain with a specific color
+            </summary>
+            <param name="r">red value of the NeoPixel to be added, 0 to 255</param>
+            <param name="g">green value of the NeoPixel to be added, 0 to 255</param>
+            <param name="b">blue value of the NeoPixel to be added, 0 to 255</param>
+            <returns>reference to the NeoPixel that was added</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Add(System.Object)">
+            <summary>
+            Adds an object to the chain
+            
+            Warning: object must be a NeoPixel instance
+            </summary>
+            <param name="value">object to be added, must be a NeoPixel instance</param>
+            <returns>index of where the object was added in the chain</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Add(NeoPixel.NeoPixel)">
+            <summary>
+            Adds a NeoPixel to the chain
+            </summary>
+            <param name="px">NeoPixel to be added</param>
+            <returns>index of where the NeoPixel was added to</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Clear">
+            <summary>
+            Removes all NeoPixels from chain
+            </summary>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Contains(System.Object)">
+            <summary>
+            Whether or not the chain contains a reference to an object
+            
+            Note: this is only a search by reference
+            </summary>
+            <param name="value">object to check</param>
+            <returns>whether or not the chain contains a reference to an object</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Contains(NeoPixel.NeoPixel)">
+            <summary>
+            Whether or not the chain contains a reference to a NeoPixel instance
+            
+            Note: this is only a search by reference
+            </summary>
+            <param name="px">NeoPixel instance to check</param>
+            <returns>whether or not the chain contains a reference to a NeoPixel instance</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.IndexOf(System.Object)">
+            <summary>
+            Find where a specific object is in the chain
+            
+            Note: this is only a search by reference
+            </summary>
+            <param name="value">object to look for</param>
+            <returns>index of the object in the chain, or negative if it is not found</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.IndexOf(NeoPixel.NeoPixel)">
+            <summary>
+            Find where a specific NeoPixel instance is in the chain
+            
+            Note: this is only a search by reference
+            </summary>
+            <param name="px">NeoPixel instance to look for</param>
+            <returns>index of the NeoPixel instance in the chain, or negative if it is not found</returns>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Insert(System.Int32,System.Object)">
+            <summary>
+            Inserts an object into the chain at a specific index.
+            
+            Warning: object must be a NeoPixel instance
+            </summary>
+            <param name="index">index of the insertion</param>
+            <param name="value">object to be inserted</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Insert(System.Int32,NeoPixel.NeoPixel)">
+            <summary>
+            Inserts a NeoPixel into the chain at a specific index.
+            </summary>
+            <param name="index">index of the insertion</param>
+            <param name="px">NeoPixel to be inserted</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Remove(System.Object)">
+            <summary>
+            Removes an object from the chain
+            
+            Note: this only searches by reference
+            </summary>
+            <param name="value">object to be removed</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.Remove(NeoPixel.NeoPixel)">
+            <summary>
+            Removes a NeoPixel instance from the chain
+            
+            Note: this only searches by reference
+            </summary>
+            <param name="px">NeoPixel instance to be removed</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.RemoveAt(System.Int32)">
+            <summary>
+            Removes a NeoPixel at a specific index in the chain
+            </summary>
+            <param name="index">index of the NeoPixel to be removed</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.CopyTo(System.Array,System.Int32)">
+            <summary>
+            Copies the elements of the chain to an Array, starting at a particular Array index.
+            </summary>
+            <param name="array">destination Array</param>
+            <param name="index">starting index</param>
+        </member>
+        <member name="M:NeoPixel.NeoPixelChain.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the chain
+            </summary>
+            <returns>enumerator that iterates through the chain</returns>
+        </member>
+        <member name="P:NeoPixel.NeoPixelChain.Item(System.Int32)">
+            <summary>
+            accesses a particular NeoPixel in the chain
+            index 0 is the first NeoPixel connected to the MCU
+            </summary>
+        </member>
+        <member name="P:NeoPixel.NeoPixelChain.IsFixedSize">
+            <summary>
+            Whether or not the chain has a fixed size
+            
+            Note: the chain should always be dynamically sized
+            </summary>
+        </member>
+        <member name="P:NeoPixel.NeoPixelChain.IsReadOnly">
+            <summary>
+            Whether or not the chain is read-only
+            
+            Note: the chain should not be read-only
+            </summary>
+        </member>
+        <member name="P:NeoPixel.NeoPixelChain.System#Collections#IList#Item(System.Int32)">
+            <summary>
+            Object at a specific index in the chain
+            </summary>
+            <param name="index">index of object</param>
+            <returns>object at the index</returns>
+        </member>
+        <member name="P:NeoPixel.NeoPixelChain.Count">
+            <summary>
+            How many NeoPixels are in this chain
+            </summary>
+        </member>
+        <member name="P:NeoPixel.NeoPixelChain.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access to the chain is synchronized (thread safe).
+            </summary>
+        </member>
+        <member name="P:NeoPixel.NeoPixelChain.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize access to the chain
+            </summary>
+        </member>
+    </members>
+</doc>

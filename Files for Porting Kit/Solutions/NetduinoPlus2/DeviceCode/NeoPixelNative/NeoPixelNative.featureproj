@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FeatureName>NeoPixelNative</FeatureName>
+    <Guid>{26692d6f-6cac-45db-b560-1904d6a64bf9}</Guid>
+    <Description>&lt;Add Feature Description Here&gt;</Description>
+    <Groups />
+  </PropertyGroup>
+  <ItemGroup>
+    <DriverLibs Include="NeoPixelNative.$(LIB_EXT)" />
+    <InteropFeature Include="NeoPixelNative" />
+    <!-- <MMP_DAT_CreateDatabase Include="$(BUILD_TREE_CLIENT)\pe\$(ENDIANNESS)\NeoPixelNative.pe" /> -->
+    <MMP_DAT_CreateDatabase Include="$(SPOCLIENT)\Solutions\NetduinoPlus2\ManagedCode\NeoPixelNative\bin\Debug\le\NeoPixelNative.pe" />
+    <!-- <RequiredProjects Include="C:\Projects\netduinoplus2\projects\NeoPixel\NeoPixelNative\Stubs\dotnetmf.proj" /> -->
+    <RequiredProjects Include="$(SPOCLIENT)\Solutions\NetduinoPlus2\DeviceCode\NeoPixelNative\dotNetMF.proj" />
+  </ItemGroup>
+</Project>
