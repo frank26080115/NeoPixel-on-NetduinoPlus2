@@ -3,7 +3,7 @@
   <PropertyGroup>
     <FeatureName>NeoPixelNative</FeatureName>
     <Guid>{26692d6f-6cac-45db-b560-1904d6a64bf9}</Guid>
-    <Description>&lt;Add Feature Description Here&gt;</Description>
+    <Description>Interop native code that outputs the timing-strict NeoPixel protocol</Description>
     <Groups />
   </PropertyGroup>
   <ItemGroup>
@@ -13,5 +13,37 @@
     <MMP_DAT_CreateDatabase Include="$(SPOCLIENT)\Solutions\NetduinoPlus2\ManagedCode\NeoPixelNative\bin\Debug\le\NeoPixelNative.pe" />
     <!-- <RequiredProjects Include="C:\Projects\netduinoplus2\projects\NeoPixel\NeoPixelNative\Stubs\dotnetmf.proj" /> -->
     <RequiredProjects Include="$(SPOCLIENT)\Solutions\NetduinoPlus2\DeviceCode\NeoPixelNative\dotNetMF.proj" />
+  </ItemGroup>
+
+  <Import Condition="'$(PLATFORM_EMULATED_FLOATINGPOINT)'=='true'" Project="$(SPOCLIENT)\Framework\Features\NEED_FLOATING_POINT" />
+  <Import Project="$(SPOCLIENT)\Framework\Features\Graphics_PAL.libcatproj" />
+  <Import Project="$(SPOCLIENT)\Framework\Features\Graphics_BMP_CLR.libcatproj" />
+  <Import Project="$(SPOCLIENT)\Framework\Features\Graphics_Gif_CLR.libcatproj" />
+  <Import Project="$(SPOCLIENT)\Framework\Features\Graphics_JPG_CLR.libcatproj" />
+  <Import Project="$(SPOCLIENT)\Framework\Features\Graphics_CLR.libcatproj" />
+  <Import Project="$(SPOCLIENT)\Framework\Features\SPOT_Graphics_CLR.libcatproj" />
+  <ItemGroup>
+    <PlatformIndependentLibs Include="SPOT_Graphics.$(LIB_EXT)" />
+    <RequiredProjects Include="$(SPOCLIENT)\CLR\Libraries\SPOT_Graphics\dotnetmf.proj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PlatformIndependentLibs Include="Graphics.$(LIB_EXT)" />
+    <RequiredProjects Include="$(SPOCLIENT)\CLR\Graphics\dotnetmf.proj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PlatformIndependentLibs Include="Graphics_BMP.$(LIB_EXT)" />
+    <RequiredProjects Include="$(SPOCLIENT)\CLR\Graphics\Bmp\dotnetmf.proj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PlatformIndependentLibs Include="Graphics_JPEG.$(LIB_EXT)" />
+    <RequiredProjects Include="$(SPOCLIENT)\CLR\Graphics\Jpeg\dotnetmf.proj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PlatformIndependentLibs Include="Graphics_GIF.$(LIB_EXT)" />
+    <RequiredProjects Include="$(SPOCLIENT)\CLR\Graphics\Gif\dotnetmf.proj" />
+  </ItemGroup>
+  <ItemGroup>
+    <DriverLibs Include="Graphics_pal.$(LIB_EXT)" />
+    <RequiredProjects Include="$(SPOCLIENT)\DeviceCode\pal\graphics\dotNetMF.proj" />
   </ItemGroup>
 </Project>
